@@ -36,6 +36,40 @@ export function createApp() {
     res.json({ status: 'ok', timestamp: new Date().toISOString() });
   });
 
+  app.get('/health/detailed', async (_req, res) => {
+    const start = Date.now();
+    const checks: Record<string, { status: string; latencyMs?: number; error?: string }> = {};
+
+    // Check PostgreSQL
+    try {
+      const { prisma } = await import('./config/prisma');
+      const dbStart = Date.now();
+      await prisma.$queryRaw`SELECT 1`;
+      checks.database = { status: 'healthy', latencyMs: Date.now() - dbStart };
+    } catch (err) {
+      checks.database = { status: 'unhealthy', error: (err as Error).message };
+    }
+
+    // Check Redis
+    try {
+      const { redis } = await import('./config/redis');
+      const redisStart = Date.now();
+      await redis.ping();
+      checks.redis = { status: 'healthy', latencyMs: Date.now() - redisStart };
+    } catch (err) {
+      checks.redis = { status: 'unhealthy', error: (err as Error).message };
+    }
+
+    const allHealthy = Object.values(checks).every((c) => c.status === 'healthy');
+    res.status(allHealthy ? 200 : 503).json({
+      status: allHealthy ? 'healthy' : 'degraded',
+      uptime: process.uptime(),
+      timestamp: new Date().toISOString(),
+      responseTimeMs: Date.now() - start,
+      checks,
+    });
+  });
+
   // ── Protected routes ───────────────────────────────────────────────────────
   app.use('/api/v1/users', authMiddleware, userRoutes);
   app.use('/api/v1/projects', authMiddleware, rateLimiter, projectRoutes);
