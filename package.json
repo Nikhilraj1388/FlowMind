@@ -1,0 +1,41 @@
+{
+  "name": "flowmind",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace=web",
+    "dev:api": "npm run dev --workspace=api",
+    "dev:all": "concurrently \"npm run dev --workspace=web\" \"npm run dev:api\"",
+    "build": "npm run build --workspace=web",
+    "lint": "npm run lint --workspace=web",
+    "typecheck": "npm run typecheck --workspace=web && npm run typecheck --workspace=api",
+    "format": "prettier --write \"**/*.{ts,tsx,js,json,md,css}\"",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@prisma/client": "^6.19.3",
+    "dotenv": "^17.4.2",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.4.3",
+    "prettier": "^3.5.3",
+    "prettier-plugin-tailwindcss": "^0.6.11",
+    "prisma": "^6.19.3"
+  },
+  "lint-staged": {
+    "apps/web/**/*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,css}": [
+      "prettier --write"
+    ]
+  },
+  "dependencies": {
+    "@prisma/adapter-pg": "^7.8.0",
+    "pg": "^8.21.0"
+  }
+}

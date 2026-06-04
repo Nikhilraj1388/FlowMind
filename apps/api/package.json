@@ -1,0 +1,46 @@
+{
+  "name": "api",
+  "version": "0.1.0",
+  "private": true,
+  "description": "FlowMind Express API — Phase 5",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/index.js",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@babel/core": "^7.29.7",
+    "@babel/generator": "^7.29.7",
+    "@babel/parser": "^7.29.7",
+    "@babel/template": "^7.29.7",
+    "@babel/traverse": "^7.29.7",
+    "@babel/types": "^7.29.7",
+    "@clerk/backend": "^2.4.0",
+    "@prisma/client": "^6.19.3",
+    "bullmq": "^5.53.0",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "dockerode": "^5.0.0",
+    "dotenv": "^17.4.2",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "helmet": "^8.0.0",
+    "ioredis": "^5.6.1",
+    "openai": "6.42.0",
+    "rate-limit-redis": "^4.2.0",
+    "winston": "^3.17.0",
+    "zod": "^3.24.3"
+  },
+  "devDependencies": {
+    "@types/babel__core": "^7.20.5",
+    "@types/babel__generator": "^7.27.0",
+    "@types/babel__traverse": "^7.28.0",
+    "@types/cors": "^2.8.17",
+    "@types/dockerode": "^4.0.1",
+    "@types/express": "^5.0.0",
+    "@types/node": "^20.17.50",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.3"
+  }
+}
